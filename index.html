@@ -45,6 +45,26 @@
             overflow-y: auto;
         }
 
+        nav h2 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        nav ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        nav li {
+            margin-bottom: 0.5rem;
+        }
+
+        nav a {
+            color: #1a202c;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
         main {
             margin-left: 270px;
             /* width of sidebar + some spacing */
@@ -54,91 +74,64 @@
             max-width: 900px;
         }
 
-        .container-card {
-            background: #e6fffa;
-            border-left: 4px solid #2c7a7b;
-            border-radius: 6px;
-            padding: 10px 15px;
-            margin-bottom: 15px;
+        section {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #ddd;
         }
 
-        .container-card summary {
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .entry {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            margin: 5px 0;
-            flex-wrap: wrap;
-        }
-
-        input[type=range] {
-            -webkit-appearance: none;
-            width: 120px;
-            height: 6px;
-            background: #ccc;
-            border-radius: 3px;
-        }
-
-        input[type=range]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            background: #2c7a7b;
-            cursor: pointer;
-        }
-
-        input[type=range]::-moz-range-thumb {
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            background: #2c7a7b;
-            cursor: pointer;
-        }
-
-        input[type=number] {
-            width: 60px;
-        }
-
-        select {
-            width: 130px;
-            padding: 3px;
-        }
-
-        button {
-            padding: 4px 8px;
-            font-size: 0.9em;
-        }
-
-        #summary {
-            background: #fff;
-            padding: 15px;
-            border-radius: 6px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin-top: 20px;
+        section h2 {
+            color: #2c7a7b;
+            margin-top: 0;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 5px;
-            font-size: 0.85em;
+            margin-top: 0.5rem;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #ccc;
         }
 
         th,
         td {
-            border: 1px solid #ccc;
-            padding: 4px;
-            text-align: center;
+            padding: 0.5rem;
+            text-align: left;
         }
 
         th {
             background: #4fd1c5;
             color: #1a202c;
+        }
+
+        details {
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            background: #e6fffa;
+            border-left: 4px solid #2c7a7b;
+        }
+
+        details summary {
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        @media (max-width: 900px) {
+            nav {
+                position: relative;
+                width: 100%;
+                height: auto;
+                float: none;
+            }
+
+            main {
+                margin-left: 0;
+                padding: 1rem;
+            }
         }
     </style>
 </head>
