@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recycling Earnings Calculator</title>
+    <title>Ageless Recycling — Calculator</title>
     <style>
         body {
             margin: 0;
@@ -12,279 +12,245 @@
             line-height: 1.6;
             background: #f9f9f9;
             color: #333;
+            display: flex;
         }
 
-        header {
-            background: #2c7a7b;
-            color: white;
-            padding: 1rem 2rem;
-            text-align: center;
+        nav {
+            position: sticky;
+            top: 0;
+            background: #4fd1c5;
+            padding: 1rem;
+            width: 220px;
+            height: 100vh;
+            overflow-y: auto;
+            flex-shrink: 0;
         }
 
-        header h1 {
-            margin: 0;
-            font-size: 2rem;
+        nav h2 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        nav ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        nav li {
+            margin-bottom: 0.5rem;
+        }
+
+        nav a {
+            color: #1a202c;
+            text-decoration: none;
+            font-weight: bold;
         }
 
         main {
-            max-width: 900px;
-            margin: auto;
+            flex: 1;
             padding: 2rem;
         }
 
+        .entry {
+            margin: 0.5rem 0;
+        }
+
         .container-card {
+            border: 1px solid #ccc;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
             background: #e6fffa;
-            border-left: 4px solid #2c7a7b;
-            border-radius: 6px;
-            padding: 10px 15px;
-            margin-bottom: 15px;
         }
 
         .container-card summary {
+            cursor: pointer;
             font-weight: bold;
-            cursor: pointer;
         }
 
-        .entry {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            margin: 5px 0;
-            flex-wrap: wrap;
-        }
-
-        input[type=range] {
-            -webkit-appearance: none;
-            width: 120px;
-            height: 6px;
-            background: #ccc;
-            border-radius: 3px;
-        }
-
-        input[type=range]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            background: #2c7a7b;
-            cursor: pointer;
-        }
-
-        input[type=range]::-moz-range-thumb {
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            background: #2c7a7b;
-            cursor: pointer;
-        }
-
-        input[type=number] {
-            width: 60px;
-        }
-
-        select {
-            width: 130px;
-            padding: 3px;
-        }
-
-        button {
-            padding: 4px 8px;
-            font-size: 0.9em;
-        }
-
-        #summary {
-            background: #fff;
-            padding: 15px;
-            border-radius: 6px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin-top: 20px;
+        .description {
+            margin: 0.5rem 0;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 5px;
-            font-size: 0.85em;
+            margin-top: 1rem;
         }
 
         th,
         td {
             border: 1px solid #ccc;
-            padding: 4px;
-            text-align: center;
+            padding: 0.5rem;
+            text-align: left;
         }
 
         th {
             background: #4fd1c5;
             color: #1a202c;
         }
+
+        button {
+            margin-top: 0.5rem;
+        }
+
+        @media (max-width: 900px) {
+            body {
+                flex-direction: column;
+            }
+
+            nav {
+                width: 100%;
+                height: auto;
+            }
+        }
     </style>
 </head>
 
 <body>
-    <header>
-        <h1>Recycling Earnings Calculator</h1>
-    </header>
+
+    <nav>
+        <h2>Ageless Recycling</h2>
+        <ul>
+            <li><a href="https://go2max.github.io/ageless_recycling/">Go Back Home</a></li>
+        </ul>
+    </nav>
 
     <main>
-        <p>Use sliders or number fields to select container quantities. Glass is not accepted. Add multiple sections per
-            type (Pre-sorted vs Mixed).</p>
         <h1>Recycling Earnings Calculator</h1>
-        <p>
-            This calculator helps you estimate your weekly earnings from recycling. Click on a container type to expand
-            and
-            add
-            quantities.
-            You can add multiple entries per type (e.g., Pre-sorted vs Mixed). Glass is not accepted.
-
-            Container types included:
-
-        <ul>
-            <li><strong>Aluminum Can (12oz):</strong> Standard soda or beer cans. Rinse if possible.</li>
-            <li><strong>Small Plastic Bottle (16.9oz / 500ml):</strong> Water or juice bottles. Rinse and remove caps.
-            </li>
-            <li><strong>Medium Plastic Bottle (20–24oz):</strong> Juice or soda bottles. Rinse and remove caps.</li>
-            <li><strong>Large Plastic Bottle (1L / 34oz):</strong> Big soda bottles. Rinse and remove caps.</li>
-            <li><strong>Bimetal Can:</strong> Small mixed metal cans. Rinse if possible.</li>
-            <li><strong>Other Plastic (#2, #4, #6):</strong> Household plastic containers. Rinse if possible.</li>
-        </ul>
-        </p>
 
         <div id="calculator"></div>
 
+        <h2>Summary</h2>
+        <div id="summary-entries"></div>
+        <p>Total Containers: <span id="total-containers">0</span></p>
+        <p>Total Weight (lbs): <span id="total-weight">0</span></p>
+        <p>Total Earnings ($): <span id="total-earnings">0</span></p>
+        <p>Last Updated: <span id="datetime"></span></p>
+
         <button onclick="clearAll()">Clear All</button>
+    </main>
 
-        <div id="summary">
-            <h2>Payment Estimate</h2>
-            <div id="summary-entries"></div>
-            <p><strong>Total Containers:</strong> <span id="total-containers">0</span></p>
-            <p><strong>Total Weight:</strong> <span id="total-weight">0</span> lbs</p>
-            <p><strong>Estimated Weekly Earnings:</strong> $<span id="total-earnings">0.00</span></p>
-            <p><small>Last Updated: <span id="datetime"></span></small></p>
-        </div>
+    <script>
+        const payoutRates = { "pre-sorted": 0.07, "mixed": 0.035, "soiled": 0.01 };
+        const containerTypes = [
+            { name: "Aluminum Can (12oz)", key: "aluminum_can", weight: 0.03, description: "Standard soda or beer cans. Rinse if possible." },
+            { name: "Small Plastic Bottle (16.9oz / 500ml)", key: "small_plastic", weight: 0.04, description: "Water or juice bottles. Rinse and remove caps." },
+            { name: "Medium Plastic Bottle (20–24oz)", key: "medium_plastic", weight: 0.06, description: "Juice or soda bottles. Rinse and remove caps." },
+            { name: "Large Plastic Bottle (1L / 34oz)", key: "large_plastic", weight: 0.12, description: "Big soda bottles. Rinse and remove caps." },
+            { name: "Bimetal Can", key: "bimetal", weight: 0.05, description: "Small mixed metal cans. Rinse if possible." },
+            { name: "Other Plastic (#2, #4, #6)", key: "other_plastic", weight: 0.08, description: "Household plastic containers. Rinse if possible." }
+        ];
 
-        <script>
-            const payoutRates = { "pre-sorted": 0.07, "mixed": 0.035, "soiled": 0.01 };
-            const containerTypes = [
-                { name: "Aluminum Can (12oz)", key: "aluminum_can", weight: 0.03, description: "Standard soda or beer cans. Rinse if possible." },
-                { name: "Small Plastic Bottle (16.9oz / 500ml)", key: "small_plastic", weight: 0.04, description: "Water or juice bottles. Rinse and remove caps." },
-                { name: "Medium Plastic Bottle (20–24oz)", key: "medium_plastic", weight: 0.06, description: "Juice or soda bottles. Rinse and remove caps." },
-                { name: "Large Plastic Bottle (1L / 34oz)", key: "large_plastic", weight: 0.12, description: "Big soda bottles. Rinse and remove caps." },
-                { name: "Bimetal Can", key: "bimetal", weight: 0.05, description: "Small mixed metal cans. Rinse if possible." },
-                { name: "Other Plastic (#2, #4, #6)", key: "other_plastic", weight: 0.08, description: "Household plastic containers. Rinse if possible." }
-            ];
+        const calculatorDiv = document.getElementById("calculator");
+        const entriesTracker = {};
 
-            const calculatorDiv = document.getElementById("calculator");
-            const entriesTracker = {};
+        function createEntry(type, idx) {
+            const div = document.createElement("div");
+            div.className = "entry";
+            div.innerHTML = `
+                <input type="range" min="0" max="500" value="0" id="slider_${type.key}_${idx}" oninput="syncInput('${type.key}', ${idx})">
+                <input type="number" min="0" max="500" value="0" id="input_${type.key}_${idx}" onchange="syncSlider('${type.key}', ${idx})">
+                containers
+                <select id="load_${type.key}_${idx}" onchange="calculateEarnings()">
+                    <option value="pre-sorted">Pre-sorted ($0.07/lb)</option>
+                    <option value="mixed">Mixed ($0.035/lb)</option>
+                    <option value="soiled">Soiled ($0.01/lb)</option>
+                </select>
+                <button onclick="clearSection('${type.key}', ${idx})">Clear</button>
+            `;
+            return div;
+        }
 
-            function createEntry(type, idx) {
-                const div = document.createElement("div");
-                div.className = "entry";
-                div.innerHTML = `
-        <input type="range" min="0" max="500" value="0" id="slider_${type.key}_${idx}" oninput="syncInput('${type.key}', ${idx})">
-        <input type="number" min="0" max="500" value="0" id="input_${type.key}_${idx}" onchange="syncSlider('${type.key}', ${idx})">
-        containers
-        <select id="load_${type.key}_${idx}" onchange="calculateEarnings()">
-            <option value="pre-sorted">Pre-sorted ($0.07/lb)</option>
-            <option value="mixed">Mixed ($0.035/lb)</option>
-            <option value="soiled">Soiled ($0.01/lb)</option>
-        </select>
-        <button onclick="clearSection('${type.key}', ${idx})">Clear</button>
-    `;
-                return div;
-            }
+        function clearSection(key, idx) {
+            document.getElementById(`slider_${key}_${idx}`).value = 0;
+            document.getElementById(`input_${key}_${idx}`).value = 0;
+            calculateEarnings();
+        }
 
-            function clearSection(key, idx) {
-                document.getElementById(`slider_${key}_${idx}`).value = 0;
-                document.getElementById(`input_${key}_${idx}`).value = 0;
-                calculateEarnings();
-            }
-
-            function clearAll() {
-                containerTypes.forEach(type => {
-                    for (let i = 1; i <= entriesTracker[type.key]; i++) {
-                        clearSection(type.key, i);
-                    }
-                });
-            }
-
+        function clearAll() {
             containerTypes.forEach(type => {
-                entriesTracker[type.key] = 0;
-                const details = document.createElement("details");
-                details.className = "container-card";
-                const summary = document.createElement("summary");
-                summary.innerText = type.name;
-                details.appendChild(summary);
+                for (let i = 1; i <= entriesTracker[type.key]; i++) {
+                    clearSection(type.key, i);
+                }
+            });
+        }
 
-                const desc = document.createElement("div");
-                desc.className = "description";
-                desc.innerText = type.description;
-                details.appendChild(desc);
+        containerTypes.forEach(type => {
+            entriesTracker[type.key] = 0;
+            const details = document.createElement("details");
+            details.className = "container-card";
+            const summary = document.createElement("summary");
+            summary.innerText = type.name;
+            details.appendChild(summary);
 
-                const entryContainer = document.createElement("div");
-                entryContainer.id = `entries_${type.key}`;
-                details.appendChild(entryContainer);
+            const desc = document.createElement("div");
+            desc.className = "description";
+            desc.innerText = type.description;
+            details.appendChild(desc);
 
-                const addButton = document.createElement("button");
-                addButton.innerText = "Add Section";
-                addButton.onclick = () => {
-                    entriesTracker[type.key]++;
-                    entryContainer.appendChild(createEntry(type, entriesTracker[type.key]));
-                    calculateEarnings();
-                };
-                details.appendChild(addButton);
+            const entryContainer = document.createElement("div");
+            entryContainer.id = `entries_${type.key}`;
+            details.appendChild(entryContainer);
 
-                calculatorDiv.appendChild(details);
-                addButton.click(); // initial entry
+            const addButton = document.createElement("button");
+            addButton.innerText = "Add Section";
+            addButton.onclick = () => {
+                entriesTracker[type.key]++;
+                entryContainer.appendChild(createEntry(type, entriesTracker[type.key]));
+                calculateEarnings();
+            };
+            details.appendChild(addButton);
+
+            calculatorDiv.appendChild(details);
+            addButton.click(); // initial entry
+        });
+
+        function syncInput(key, idx) {
+            document.getElementById(`input_${key}_${idx}`).value = document.getElementById(`slider_${key}_${idx}`).value;
+            calculateEarnings();
+        }
+
+        function syncSlider(key, idx) {
+            document.getElementById(`slider_${key}_${idx}`).value = document.getElementById(`input_${key}_${idx}`).value;
+            calculateEarnings();
+        }
+
+        function calculateEarnings() {
+            let totalEarnings = 0, totalWeight = 0, totalContainers = 0;
+            const summaryDiv = document.getElementById("summary-entries");
+            summaryDiv.innerHTML = "";
+
+            const table = document.createElement("table");
+            const header = table.insertRow();
+            ["Container Type", "Entry", "Count", "Load Type", "Weight (lbs)", "Earnings ($)"].forEach(text => {
+                const th = document.createElement("th"); th.innerText = text; header.appendChild(th);
             });
 
-            // Sync slider/number
-            function syncInput(key, idx) {
-                document.getElementById(`input_${key}_${idx}`).value = document.getElementById(`slider_${key}_${idx}`).value;
-                calculateEarnings();
-            }
-            function syncSlider(key, idx) {
-                document.getElementById(`slider_${key}_${idx}`).value = document.getElementById(`input_${key}_${idx}`).value;
-                calculateEarnings();
-            }
+            containerTypes.forEach(type => {
+                for (let i = 1; i <= entriesTracker[type.key]; i++) {
+                    const count = parseFloat(document.getElementById(`input_${type.key}_${i}`).value) || 0;
+                    if (count <= 0) continue;
+                    const loadType = document.getElementById(`load_${type.key}_${i}`).value;
+                    const weight = count * type.weight;
+                    const earnings = weight * payoutRates[loadType];
+                    totalEarnings += earnings; totalWeight += weight; totalContainers += count;
 
-            // Earnings calculation
-            function calculateEarnings() {
-                let totalEarnings = 0, totalWeight = 0, totalContainers = 0;
-                const summaryDiv = document.getElementById("summary-entries");
-                summaryDiv.innerHTML = "";
+                    const row = table.insertRow();
+                    [type.name, i, count, loadType, weight.toFixed(2), earnings.toFixed(2)].forEach(val => {
+                        const cell = row.insertCell(); cell.innerText = val;
+                    });
+                }
+            });
 
-                const table = document.createElement("table");
-                const header = table.insertRow();
-                ["Container Type", "Entry", "Count", "Load Type", "Weight (lbs)", "Earnings ($)"].forEach(text => {
-                    const th = document.createElement("th"); th.innerText = text; header.appendChild(th);
-                });
+            summaryDiv.appendChild(table);
+            document.getElementById("total-containers").innerText = totalContainers;
+            document.getElementById("total-weight").innerText = totalWeight.toFixed(2);
+            document.getElementById("total-earnings").innerText = totalEarnings.toFixed(2);
+            document.getElementById("datetime").innerText = new Date().toLocaleString();
+        }
 
-                containerTypes.forEach(type => {
-                    for (let i = 1; i <= entriesTracker[type.key]; i++) {
-                        const count = parseFloat(document.getElementById(`input_${type.key}_${i}`).value) || 0;
-                        if (count <= 0) continue;
-                        const loadType = document.getElementById(`load_${type.key}_${i}`).value;
-                        const weight = count * type.weight;
-                        const earnings = weight * payoutRates[loadType];
-                        totalEarnings += earnings; totalWeight += weight; totalContainers += count;
-
-                        const row = table.insertRow();
-                        [type.name, i, count, loadType, weight.toFixed(2), earnings.toFixed(2)].forEach(val => {
-                            const cell = row.insertCell(); cell.innerText = val;
-                        });
-                    }
-                });
-
-                summaryDiv.appendChild(table);
-                document.getElementById("total-containers").innerText = totalContainers;
-                document.getElementById("total-weight").innerText = totalWeight.toFixed(2);
-                document.getElementById("total-earnings").innerText = totalEarnings.toFixed(2);
-                document.getElementById("datetime").innerText = new Date().toLocaleString();
-            }
-
-            calculateEarnings();
-        </script>
+        calculateEarnings();
+    </script>
 </body>
 
 </html>
