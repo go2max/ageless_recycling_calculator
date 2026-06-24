@@ -1,0 +1,1 @@
+{"name":"ageless-recycling-calculator","private":true,"type":"module","scripts":{"test":"node --test","check":"node --check app.js && node --check calculator.js"}}
